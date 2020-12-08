@@ -1,6 +1,5 @@
 import api from '../utils/api';
 import { setAlert } from './alert';
-import config from '../config.json';
 
 import {
   GET_PROFILE,
@@ -84,21 +83,18 @@ export const getGithubRepos = (username) => async (dispatch) => {
   }
 };
 
-
 // Create or update profile
 export const createProfile = (formData, history, edit = false) => async (
   dispatch
 ) => {
   try {
-
-
     const config = {
       headers: {
-        Accept: 'application/json',
+        Accept: 'application/json'
         // Authorization: `Bearer ${token}`
-    },
-    }
-    const res = await api.post('/profile',formData, config);
+      }
+    };
+    const res = await api.post('/profile', formData, config);
     const user = res.data;
     delete user.photo;
     console.log(user);
@@ -113,12 +109,10 @@ export const createProfile = (formData, history, edit = false) => async (
     if (!edit) {
       history.push('/dashboard');
     }
-   
   } catch (err) {
     const errors = err.response.data.errors;
     console.log(errors);
     console.log(err);
-
 
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));

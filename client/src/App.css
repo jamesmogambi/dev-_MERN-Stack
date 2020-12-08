@@ -161,7 +161,6 @@ img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-    
 }
 
 .btn-primary,
@@ -507,7 +506,7 @@ button {
   }
 
   /* Text Styles */
-    .x-large {
+  .x-large {
     font-size: 3rem;
   }
 

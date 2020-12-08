@@ -107,7 +107,7 @@ const ProfileSchema = new mongoose.Schema({
   photo: {
     data: Buffer,
     contentType: String
-},
+  },
   date: {
     type: Date,
     default: Date.now
