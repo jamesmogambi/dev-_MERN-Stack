@@ -39,7 +39,7 @@ export default function (state = initialState, action) {
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false
+        loading: true
       };
     case ACCOUNT_DELETED:
       return {

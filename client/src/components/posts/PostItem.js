@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import formatDate from '../../utils/formatDate';
@@ -7,6 +7,7 @@ import { addLike, removeLike, deletePost } from '../../actions/post';
 import ReactImageFallback from 'react-image-fallback';
 import config from '../../config.json';
 import avatar from '../../img/avatar.png';
+import spinner from '../layout/spinner.gif';
 
 const API = config.REACT_APP_API_URL;
 
@@ -26,7 +27,7 @@ const PostItem = ({
           <ReactImageFallback
             src={`${API}/profile/photo/${user}`}
             fallbackImage={avatar}
-            initialImage={avatar}
+            initialImage={spinner}
             alt={name}
             className="avatar"
           />

@@ -18,7 +18,6 @@ const Post = require('../../models/Post');
 // @desc     Get current users profile
 // @access   Private
 router.get('/me', auth, async (req, res) => {
-  // console.log('/me',req)
   try {
     const profile = await Profile.findOne({
       user: req.user.id
@@ -45,13 +44,6 @@ router.post('/', auth, (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
   form.parse(req, (err, fields, files) => {
-    console.log('req user', req.user);
-
-    console.log('fields', fields);
-    console.log('files', files);
-
-    console.log('usere id', req.user.id);
-
     if (err) {
       return res.status(400).json({
         msg: 'Image could not be uploaded'
@@ -96,7 +88,6 @@ router.post('/', auth, (req, res) => {
 
       ...rest
     };
-    console.log('skills', profileFields.skills);
 
     // Build socialFields object
     const socialFields = { youtube, twitter, instagram, linkedin, facebook };
@@ -125,7 +116,6 @@ router.post('/', auth, (req, res) => {
       };
     }
 
-    console.log('profileFields', profileFields);
     //  Profile.findOneAndUpdate(query, update, options)
     // Using upsert option (creates new doc if no match is found):
     Profile.findOneAndUpdate(
@@ -135,12 +125,10 @@ router.post('/', auth, (req, res) => {
     )
       .then((profile) => {
         if (profile) {
-          console.log(`Successfully updated document: ${profile}.`);
+          console.log(`Successfully updated document.`);
           return res.json(profile);
         } else {
           console.log('No document matches the provided query.');
-          // return res.status(500).send(`No document matches the provided query.`);
-          // return res.status(500).send('Server Error');
           return res.status(500).json({ errors: [{ msg: 'Server Error' }] });
         }
         // return profile

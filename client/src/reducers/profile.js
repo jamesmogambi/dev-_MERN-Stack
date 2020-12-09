@@ -11,7 +11,6 @@ import {
 
 const initialState = {
   profile: null,
-  photo: null,
   profiles: [],
   repos: [],
   loading: true,
@@ -29,7 +28,7 @@ export default function (state = initialState, action) {
         profile: payload,
         loading: false
       };
-          case GET_PROFILES:
+    case GET_PROFILES:
       return {
         ...state,
         profiles: payload,

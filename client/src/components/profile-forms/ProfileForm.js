@@ -30,6 +30,7 @@ let initialState = {
 
 const ProfileForm = ({
   profile: { profile, loading },
+  auth: { user },
   createProfile,
   getCurrentProfile,
   history
@@ -119,7 +120,7 @@ const ProfileForm = ({
             src={photoURL}
             fallbackImage={avatar}
             initialImage={spinner}
-            alt="hello"
+            alt={user.name}
             style={{
               verticalAlign: 'middle',
               width: '170px',

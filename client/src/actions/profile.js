@@ -97,7 +97,6 @@ export const createProfile = (formData, history, edit = false) => async (
     const res = await api.post('/profile', formData, config);
     const user = res.data;
     delete user.photo;
-    console.log(user);
 
     dispatch({
       type: GET_PROFILE,

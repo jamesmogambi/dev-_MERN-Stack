@@ -1,28 +1,53 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactImageFallback from 'react-image-fallback';
+import config from '../../config.json';
 import DashboardActions from './DashboardActions';
 import Experience from './Experience';
 import Education from './Education';
 import { getCurrentProfile, deleteAccount } from '../../actions/profile';
+import avatar from '../../img/avatar.png';
+import spinner from '../layout/spinner.gif';
+
+const API = config.REACT_APP_API_URL;
 
 const Dashboard = ({
   getCurrentProfile,
   deleteAccount,
   auth: { user },
-  profile: { profile }
+  profile: { profile, loading }
 }) => {
+  const [photo, setPhoto] = useState(null);
+
   useEffect(() => {
     getCurrentProfile();
-
-  }, [getCurrentProfile]);
+    if (user) {
+      let photoURL = `${API}/profile/photo/${user._id}`;
+      setPhoto(photoURL);
+    }
+  }, [getCurrentProfile, loading]);
 
   return (
     <Fragment>
       <h1 className="large text-primary">Dashboard</h1>
       <p className="lead">
-        <i className="fas fa-user" /> Welcome {user && user.name}
+        <ReactImageFallback
+          src={photo}
+          fallbackImage={avatar}
+          initialImage={spinner}
+          alt={photo}
+          style={{
+            verticalAlign: 'middle',
+            width: '100px',
+            height: '100px',
+            marginRight: '30px',
+            borderRadius: '50%'
+          }}
+        />
+        {/* <i className="fas fa-user" />  */}
+        Welcome {user && user.name}
       </p>
       {profile !== null ? (
         <Fragment>
@@ -60,6 +85,6 @@ const mapStateToProps = (state) => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount})(
+export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
   Dashboard
 );

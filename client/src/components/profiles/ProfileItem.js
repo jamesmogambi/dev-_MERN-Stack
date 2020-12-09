@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ReactImageFallback from 'react-image-fallback';
 import config from '../../config.json';
 import avatar from '../../img/avatar.png';
+import spinner from '../layout/spinner.gif';
 
 const API = config.REACT_APP_API_URL;
 
@@ -21,7 +22,7 @@ const ProfileItem = ({
       <ReactImageFallback
         src={`${API}/profile/photo/${_id}`}
         fallbackImage={avatar}
-        initialImage={avatar}
+        initialImage={spinner}
         alt={name}
         style={{
           verticalAlign: 'middle',

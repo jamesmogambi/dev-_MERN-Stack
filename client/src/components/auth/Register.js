@@ -7,10 +7,10 @@ import PropTypes from 'prop-types';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
-    name: 'user9',
-    email: 'user9@gmail.com',
-    password: '123456',
-    password2: '123456'
+    name: '',
+    email: '',
+    password: '',
+    password2: ''
   });
 
   const { name, email, password, password2 } = formData;
@@ -55,10 +55,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             value={email}
             onChange={onChange}
           />
-          <small className="form-text">
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
-          </small>
         </div>
         <div className="form-group">
           <input
