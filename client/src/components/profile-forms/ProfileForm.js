@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 import config from '../../config.json';
 import avatar from '../../img/avatar.png';
+import spinner from '../layout/spinner.gif';
 
 const API = config.REACT_APP_API_URL;
 
@@ -33,7 +34,6 @@ const ProfileForm = ({
   getCurrentProfile,
   history
 }) => {
-  // const {photo,status,company,website,location,skills,repos,social} = profile;
   const [values, setValues] = useState(initialState);
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
@@ -85,7 +85,7 @@ const ProfileForm = ({
 
       setValues(profileData);
     }
-  }, [loading, getCurrentProfile, profile]);
+  }, [loading]);
 
   const onChange = (e) => {
     if (e.target.name === 'photo') {
@@ -118,7 +118,7 @@ const ProfileForm = ({
           <ReactImageFallback
             src={photoURL}
             fallbackImage={avatar}
-            initialImage={avatar}
+            initialImage={spinner}
             alt="hello"
             style={{
               verticalAlign: 'middle',
