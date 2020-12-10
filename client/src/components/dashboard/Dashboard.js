@@ -11,7 +11,7 @@ import { getCurrentProfile, deleteAccount } from '../../actions/profile';
 import avatar from '../../img/avatar.png';
 import spinner from '../layout/spinner.gif';
 
-const API = config.REACT_APP_API_URL;
+const API = config.SERVER_URL;
 
 const Dashboard = ({
   getCurrentProfile,

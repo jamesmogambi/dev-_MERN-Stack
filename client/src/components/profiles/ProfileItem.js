@@ -6,7 +6,7 @@ import config from '../../config.json';
 import avatar from '../../img/avatar.png';
 import spinner from '../layout/spinner.gif';
 
-const API = config.REACT_APP_API_URL;
+const API = config.SERVER_URL;
 
 const ProfileItem = ({
   profile: {

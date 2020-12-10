@@ -8,7 +8,7 @@ import config from '../../config.json';
 import avatar from '../../img/avatar.png';
 import spinner from '../layout/spinner.gif';
 
-const API = config.REACT_APP_API_URL;
+const API = config.SERVER_URL;
 
 let initialState = {
   photo: null,
@@ -59,7 +59,7 @@ const ProfileForm = ({
   useEffect(() => {
     if (!profile) getCurrentProfile();
     if (!loading && profile) {
-      let avatar = `${API}/profile/photo/${profile.user}`;
+      let avatar = `${API}/profile/photo/${profile.user._id}`;
 
       const profileData = { ...initialState };
       profileData.photoURL = avatar;

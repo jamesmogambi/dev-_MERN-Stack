@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-const normalize = require('normalize-url');
 
 const User = require('../../models/User');
 
@@ -39,7 +37,6 @@ router.post(
           .json({ errors: [{ msg: 'User already exists' }] });
       }
 
-      
       user = new User({
         name,
         email,
