@@ -141,8 +141,8 @@ const ProfileForm = ({
             alt={user.name}
             style={{
               verticalAlign: 'middle',
-              width: '170px',
-              height: '170px',
+              width: '150px',
+              height: '150px',
               borderRadius: '50%'
             }}
           />
