@@ -51,8 +51,8 @@ const Dashboard = ({
           alt={photo}
           style={{
             verticalAlign: 'middle',
-            width: '120px',
-            height: '120px',
+            width: '130px',
+            height: '130px',
             marginRight: '30px',
             borderRadius: '50%'
           }}
