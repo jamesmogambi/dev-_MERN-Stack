@@ -98,8 +98,8 @@ router.post('/', auth, (req, res) => {
     // add to profileFields
     profileFields.social = socialFields;
 
-    if (files.photo) {
-      if (files.photo.size > 1000000) {
+    if (files.userPhoto) {
+      if (files.userPhoto.size > 1000000) {
         return res.status(400).json({
           errors: [{ msg: 'Image should be less than 1mb in size.' }]
         });
@@ -108,8 +108,8 @@ router.post('/', auth, (req, res) => {
       profileFields = {
         ...profileFields,
         photo: {
-          data: fs.readFileSync(files.photo.path),
-          contentType: files.photo.type
+          data: fs.readFileSync(files.userPhoto.path),
+          contentType: files.userPhoto.type
         }
       };
     }

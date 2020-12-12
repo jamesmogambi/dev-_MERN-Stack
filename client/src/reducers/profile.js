@@ -1,12 +1,12 @@
 import {
   GET_PROFILE,
-  GET_USER_PHOTO,
   PROFILE_ERROR,
   CLEAR_PROFILE,
   UPDATE_PROFILE,
   GET_PROFILES,
   GET_REPOS,
-  NO_REPOS
+  NO_REPOS,
+  LOGOUT
 } from '../actions/types';
 
 const initialState = {

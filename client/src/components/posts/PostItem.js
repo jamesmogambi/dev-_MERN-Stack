@@ -1,15 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import formatDate from '../../utils/formatDate';
 import { connect } from 'react-redux';
 import { addLike, removeLike, deletePost } from '../../actions/post';
 import ReactImageFallback from 'react-image-fallback';
-import config from '../../config.json';
+import getPhoto from '../../utils/getPhoto';
 import avatar from '../../img/avatar.png';
 import spinner from '../layout/spinner.gif';
-
-const API = config.SERVER_URL;
 
 const PostItem = ({
   addLike,
@@ -19,17 +17,40 @@ const PostItem = ({
   post: { _id, text, name, user, likes, comments, date },
   showActions
 }) => {
+  const [photo, setPhoto] = useState(null);
+  useEffect(() => {
+    let unmounted = false;
+    getPhoto(user)
+      .then((res) => {
+        if (!unmounted) {
+          setPhoto(res);
+        }
+      })
+      .catch((err) => {
+        if (!unmounted) {
+          setPhoto(null);
+        }
+      });
+    return () => {
+      unmounted = true;
+    };
+  }, []);
   return (
     <div className="post bg-white p-1 my-1">
       <div>
         <Link to={`/profile/${user}`}>
           {/* <img src={`${API}/profile/photo/${user}`} alt='' className='round-img' /> */}
           <ReactImageFallback
-            src={`${API}/profile/photo/${user}`}
+            src={photo}
             fallbackImage={avatar}
             initialImage={spinner}
             alt={name}
-            className="avatar"
+            style={{
+              verticalAlign: 'middle',
+              width: '150px',
+              height: '150px',
+              borderRadius: '50%'
+            }}
           />
           <h4>{name}</h4>
         </Link>

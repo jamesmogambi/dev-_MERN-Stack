@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactImageFallback from 'react-image-fallback';
-import config from '../../config.json';
 import avatar from '../../img/avatar.png';
 import spinner from '../layout/spinner.gif';
-
-const API = config.SERVER_URL;
+import getPhoto from '../../utils/getPhoto';
 
 const ProfileTop = ({
   profile: {
@@ -17,10 +15,30 @@ const ProfileTop = ({
     user: { name, _id }
   }
 }) => {
+  const [photo, setPhoto] = useState(null);
+
+  useEffect(() => {
+    let unmounted = false;
+    getPhoto(_id)
+      .then((res) => {
+        if (!unmounted) {
+          setPhoto(res);
+        }
+      })
+      .catch((err) => {
+        if (!unmounted) {
+          setPhoto(null);
+        }
+      });
+    return () => {
+      unmounted = true;
+    };
+  }, []);
+
   return (
     <div className="profile-top bg-primary p-2">
       <ReactImageFallback
-        src={`${API}/profile/photo/${_id}`}
+        src={photo}
         fallbackImage={avatar}
         initialImage={spinner}
         alt={name}

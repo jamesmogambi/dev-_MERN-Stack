@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReactImageFallback from 'react-image-fallback';
-import config from '../../config.json';
+import getPhoto from '../../utils/getPhoto';
 import avatar from '../../img/avatar.png';
 import spinner from '../layout/spinner.gif';
-
-const API = config.SERVER_URL;
 
 const ProfileItem = ({
   profile: {
@@ -17,10 +15,29 @@ const ProfileItem = ({
     skills
   }
 }) => {
+  const [photo, setPhoto] = useState(null);
+  useEffect(() => {
+    let unmounted = false;
+    getPhoto(_id)
+      .then((res) => {
+        if (!unmounted) {
+          setPhoto(res);
+        }
+      })
+      .catch((err) => {
+        if (!unmounted) {
+          setPhoto(null);
+        }
+      });
+    return () => {
+      unmounted = true;
+    };
+  }, []);
+
   return (
     <div className="profile bg-light">
       <ReactImageFallback
-        src={`${API}/profile/photo/${_id}`}
+        src={photo}
         fallbackImage={avatar}
         initialImage={spinner}
         alt={name}

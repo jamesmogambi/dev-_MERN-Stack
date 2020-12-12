@@ -4,15 +4,12 @@ import PropTypes from 'prop-types';
 import ReactImageFallback from 'react-image-fallback';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
-import config from '../../config.json';
+import getPhoto from '../../utils/getPhoto';
 import avatar from '../../img/avatar.png';
 import spinner from '../layout/spinner.gif';
 
-const API = config.SERVER_URL;
-
 let initialState = {
-  photo: null,
-  photoURL: null,
+  userPhoto: null,
   company: '',
   website: '',
   location: '',
@@ -25,7 +22,7 @@ let initialState = {
   linkedin: '',
   youtube: '',
   instagram: '',
-  formData: new FormData()
+  formData: ''
 };
 
 const ProfileForm = ({
@@ -36,11 +33,12 @@ const ProfileForm = ({
   history
 }) => {
   const [values, setValues] = useState(initialState);
+  const [photo, setPhoto] = useState(null);
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   const {
-    photoURL,
+    userPhoto,
     company,
     website,
     location,
@@ -57,46 +55,66 @@ const ProfileForm = ({
   } = values;
 
   useEffect(() => {
+    let unmounted = false;
+    setValues({ ...values, formData: new FormData() });
     if (!profile) getCurrentProfile();
     if (!loading && profile) {
-      let avatar = `${API}/profile/photo/${profile.user._id}`;
-
-      const profileData = { ...initialState };
-      profileData.photoURL = avatar;
-
-      for (const key in profile) {
-        if (key in profileData) profileData[key] = profile[key];
-        if (
-          key !== 'photo' &&
-          key !== 'user' &&
-          key !== 'education' &&
-          key !== 'experience'
-        ) {
-          profileData.formData.set(key, profile[key]);
+      const profileData = { ...initialState, formData: new FormData() };
+      getPhoto(user._id)
+        .then((res) => {
+          if (!unmounted) {
+            setPhoto(res);
+          }
+        })
+        .catch((err) => {
+          if (!unmounted) {
+            setPhoto(null);
+          }
+        });
+      if (!unmounted) {
+        for (const key in profile) {
+          if (key in profileData) profileData[key] = profile[key];
+          if (
+            key !== 'photo' &&
+            key !== 'user' &&
+            key !== 'education' &&
+            key !== 'experience'
+          ) {
+            profileData.formData.set(key, profile[key]);
+          }
         }
+        for (const key in profile.social) {
+          if (key in profileData) {
+            profileData[key] = profile.social[key];
+            if (profile.social[key] !== null && profile.social[key] !== '') {
+              profileData.formData.set(key, profile.social[key]);
+            }
+          }
+        }
+        if (Array.isArray(profileData.skills)) {
+          profileData.skills = profileData.skills.join(', ');
+        }
+        setValues(profileData);
       }
-      for (const key in profile.social) {
-        if (key in profileData) profileData[key] = profile.social[key];
-        // profileData.formData.set(key, profile.social[key]);
-      }
-      if (Array.isArray(profileData.skills)) {
-        profileData.skills = profileData.skills.join(', ');
-        // profileData.formData.set('skills', profileData.skills);
-      }
-
-      setValues(profileData);
     }
-  }, [loading]);
+
+    return () => {
+      unmounted = true;
+    };
+  }, [profile, getCurrentProfile, loading]);
 
   const onChange = (e) => {
-    if (e.target.name === 'photo') {
-      formData.set(e.target.name, e.target.files[0]);
+    if (e.target.name === 'userPhoto') {
+      if (e.target.files.length > 0) {
+        formData.set(e.target.name, e.target.files[0]);
 
-      setValues({
-        ...values,
-        [e.target.name]: e.target.files[0],
-        photoURL: URL.createObjectURL(e.target.files[0])
-      });
+        let url = URL.createObjectURL(e.target.files[0]);
+        setPhoto(url);
+        setValues({
+          ...values,
+          [e.target.name]: e.target.files[0]
+        });
+      }
     } else {
       formData.set(e.target.name, e.target.value);
       setValues({ ...values, [e.target.name]: e.target.value });
@@ -117,7 +135,7 @@ const ProfileForm = ({
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group preview">
           <ReactImageFallback
-            src={photoURL}
+            src={photo}
             fallbackImage={avatar}
             initialImage={spinner}
             alt={user.name}
@@ -135,7 +153,7 @@ const ProfileForm = ({
           <input
             onChange={onChange}
             type="file"
-            name="photo"
+            name="userPhoto"
             accept="image/*"
           />
         </label>

@@ -3,15 +3,13 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactImageFallback from 'react-image-fallback';
-import config from '../../config.json';
 import DashboardActions from './DashboardActions';
 import Experience from './Experience';
 import Education from './Education';
 import { getCurrentProfile, deleteAccount } from '../../actions/profile';
+import getPhoto from '../../utils/getPhoto';
 import avatar from '../../img/avatar.png';
 import spinner from '../layout/spinner.gif';
-
-const API = config.SERVER_URL;
 
 const Dashboard = ({
   getCurrentProfile,
@@ -22,10 +20,23 @@ const Dashboard = ({
   const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
+    let unmounted = false;
     getCurrentProfile();
     if (user) {
-      let photoURL = `${API}/profile/photo/${user._id}`;
-      setPhoto(photoURL);
+      getPhoto(user._id)
+        .then((res) => {
+          if (!unmounted) {
+            setPhoto(res);
+          }
+        })
+        .catch((err) => {
+          if (!unmounted) {
+            setPhoto(null);
+          }
+        });
+      return () => {
+        unmounted = true;
+      };
     }
   }, [getCurrentProfile, loading]);
 
