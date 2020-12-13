@@ -1,4 +1,3 @@
 node_modules/
 client/build
-config/production.json
-config/default.json
+
