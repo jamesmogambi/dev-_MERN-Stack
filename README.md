@@ -27,6 +27,32 @@ Here is a working live demo : [dev++](https://dev-plus-2020.herokuapp.com/)
 
 ## Screenshots
 
+### Landing Page
+![index](https://user-images.githubusercontent.com/31744209/102247624-391b0c80-3f11-11eb-8863-60c4a5edcff6.png)
+
+
+
+### User Dashboard
+![user-dashboard](https://user-images.githubusercontent.com/31744209/102247613-37514900-3f11-11eb-9a0f-8e1a1b8d3d22.png)
+
+
+
+### Profiles
+![profiles](https://user-images.githubusercontent.com/31744209/102247600-34eeef00-3f11-11eb-8c83-9b99b0ace69b.png)
+
+
+
+### Posts
+![posts](https://user-images.githubusercontent.com/31744209/102247631-3a4c3980-3f11-11eb-8feb-6e50c76e65a6.png)
+
+
+
+### Discussions
+![comment](https://user-images.githubusercontent.com/31744209/102247619-38827600-3f11-11eb-8404-a310eb6663d1.png)
+
+
+
+
 ## Technologies
 * Technologies used:
   * `React` 16.1 - for displaying UI components
