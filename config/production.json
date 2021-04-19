@@ -1,5 +1,5 @@
 {
   "jwtSecret": "jhbnckjnlcnwknnckjnwlnkjwcnnkjnckjjhbcbwinchj",
   "mongoURI": "mongodb+srv://james:james@cluster0.qpojw.mongodb.net/devConnector?retryWrites=true&w=majority",
-  "githubToken": "32227dc432a9d850f5121bd225941459a045adcf"
+  "githubToken": "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"
 }
